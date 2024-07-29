@@ -2,7 +2,7 @@
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.util.List;
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -14,7 +14,8 @@ public class TestCases {
 
 	WebDriver driver = new ChromeDriver();
 	String URL="https://www.almosafer.com/ar?ncr=1";
-	
+	Random rand=new Random();
+
 	
 	@BeforeTest
 	public void MySetup() {
@@ -24,13 +25,29 @@ public class TestCases {
 	
 	@Test
 	public void chalets() {
-		WebElement carsButton=driver.findElement(By.xpath("//body/div[@id='__next']/div[@class='sc-iUVpnZ fESGpW']/div[1]/a[1]"));
-		carsButton.click();
 		
-		List <WebElement>cars=driver.findElements(By.className("sc-bJazwb "));
-		
-		//not completed yet!!
-		for(int i=0; i<cars.size();i++) {
-		}
+		String [] website= {"https://global.almosafer.com/en","https://global.almosafer.com/ar"};
+		 
+		 int randomIndex=rand.nextInt(website.length);
+		 driver.get(website[randomIndex]);
+		 
+		 WebElement activityButton=driver.findElement(By.id("uncontrolled-tab-example-tab-activities"));
+		 activityButton.click();
+		 
+		 WebElement search=driver.findElement(By.id("Activities-SearchInput"));
+
+		 if(driver.getCurrentUrl().contains("en")) {
+			 String [] English = {"Tours","Attraction","Activities and Experiences"};
+			 int RandomIndex= rand.nextInt(English.length);
+			 search.sendKeys(English[RandomIndex]);
+
+		 }
+		 else if(driver.getCurrentUrl().contains("ar")) {
+			 String [] Arabic= {"الجولات","المعالم"};
+				int RandomIndex=rand.nextInt(Arabic.length);
+				search.sendKeys(Arabic[RandomIndex]);
+		 }
+		 
+	
 	}	
 }
